@@ -13,19 +13,14 @@ import traceback
 @register(name="Nahida", description="Hello Nahida", version="0.1", author="RockChinQ")
 class NahidaPlugin(Plugin):
 
-    images_urls: list[str] = []
+    url: str = ""
     # 插件加载时触发
     # plugin_host (pkg.plugin.host.PluginHost) 提供了与主程序交互的一些方法，详细请查看其源码
     def __init__(self, plugin_host: PluginHost):
-        json_resp = requests.get(
-            url="https://api.github.com/repos/RockChinQ/NahidaImages/contents/images",
-        )
-        obj_json = json_resp.json()
+        self.url="https://www.loliapi.com/acg/?type=url"
 
-        for item in obj_json:
-            self.images_urls.append(item["download_url"])
-
-        
+    def get_pic(self):
+        return requests.get(self.url).text
     @on(PersonMessageReceived)
     @on(GroupMessageReceived)
     def _(self, event: EventContext, host: PluginHost, message_chain, **kwargs):
@@ -35,7 +30,7 @@ class NahidaPlugin(Plugin):
                 event.prevent_default()
                 event.prevent_postorder()
                 # 发送图片
-                image_url = random.choice(self.images_urls)
+                image_url = self.get_pic()
                 
                 if kwargs["launcher_type"] == "group":
                     host.send_group_message(kwargs["launcher_id"], [Image(url=image_url)])
