@@ -10,7 +10,7 @@ import traceback
 
 
 # 注册插件
-@register(name="Nahida", description="Hello Nahida", version="0.1", author="RockChinQ")
+@register(name="loli", description="Hello Loli", version="0.1", author="Lisk")
 class NahidaPlugin(Plugin):
 
     url: str = ""
@@ -26,7 +26,7 @@ class NahidaPlugin(Plugin):
     def _(self, event: EventContext, host: PluginHost, message_chain, **kwargs):
         try:
             text = str(message_chain).strip()
-            if text == "nahida" or text == "nhd":
+            if text == "loli" or text == "ll":
                 event.prevent_default()
                 event.prevent_postorder()
                 # 发送图片
